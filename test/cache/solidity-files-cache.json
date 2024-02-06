@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/hudsonheadley/Desktop/Code/subgraph-generate/test/contracts/token.sol": {
-      "lastModificationDate": 1707252109837,
-      "contentHash": "e906245f844fc73231fc66228f32b203",
+      "lastModificationDate": 1707255468679,
+      "contentHash": "4b1fe7068988f030d92d87316bb6d51b",
       "sourceName": "contracts/token.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -34,6 +34,43 @@
       ],
       "artifacts": [
         "Token"
+      ]
+    },
+    "/Users/hudsonheadley/Desktop/Code/subgraph-generate/test/contracts/tokenFactory.sol": {
+      "lastModificationDate": 1707255575578,
+      "contentHash": "78e3745e7f87f22cd3042050154d314b",
+      "sourceName": "contracts/tokenFactory.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./token.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TokenFactory"
       ]
     }
   }

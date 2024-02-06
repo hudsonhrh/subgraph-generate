@@ -14,10 +14,14 @@ contract Token {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    constructor(uint256 _initialSupply) {
+
+    function initialize(string memory _name, string memory _symbol, uint256 _initialSupply, address owner) external {
+        require(totalSupply == 0, "Token already initialized"); 
+        name = _name;
+        symbol = _symbol;
         totalSupply = _initialSupply * (10 ** uint256(decimals));
-        balanceOf[msg.sender] = totalSupply; // Assign all tokens to contract deployer
-        emit Transfer(address(0), msg.sender, totalSupply);
+        balanceOf[owner] = totalSupply;
+        emit Transfer(address(0), owner, totalSupply);
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {

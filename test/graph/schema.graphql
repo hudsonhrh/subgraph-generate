@@ -1,0 +1,25 @@
+type TokenMinted @entity {
+  id: ID!
+  to: Bytes!
+  value: BigInt!
+}
+
+type UserTokenBalance @entity {
+  id: ID! # Use the user's address as the ID
+  balance: BigInt!
+}
+
+type Transfer @entity {
+  id: ID!
+  from: Bytes! # Address type in The Graph
+  to: Bytes!
+  value: BigInt!
+}
+
+type Approval @entity {
+  id: ID!
+  owner: Bytes!
+  spender: Bytes!
+  value: BigInt!
+}
+
