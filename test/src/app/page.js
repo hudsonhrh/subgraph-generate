@@ -1,95 +1,75 @@
-import Image from "next/image";
+'use client'
+
 import styles from "./page.module.css";
+
+// Import Web3
+import Web3 from 'web3';
+
+// Import contract ABI
+import tokenABI from "../abi/Token.json";
+
+// Initialize Web3 and get a provider from MetaMask
+const web3 = new Web3(window.ethereum);
+
+// Get signer (account) from MetaMask
+async function getAccount() {
+  await window.ethereum.enable();
+  const accounts = await web3.eth.getAccounts();
+  return accounts[0]; // Assuming the first account is the signer
+}
+
+// Get contract instance
+function getContract(account) {
+  const contractAddress = "0x00058B61bcaa7731082E6C90E7317303eA1b74c9";
+  const contract = new web3.eth.Contract(tokenABI.abi, contractAddress, {
+    from: account // specifying the default account to use
+  });
+  return contract;
+}
+
+// Get balance
+async function getBalance() {
+  const account = await getAccount();
+  const contract = getContract(account);
+  const balance = await contract.methods.balanceOf(account).call();
+  console.log(`Balance: ${balance}`);
+  return balance;
+}
+
+// Transfer tokens
+async function transferTokens() {
+  const account = await getAccount();
+  const contract = getContract(account);
+  const tx = await contract.methods.transfer("0x00058B61bcaa7731082E6C90E7317303eA1b74c9", 100).send({
+    from: account
+  });
+  console.log("Transaction: ", tx);
+}
+
+// Deploy contract (assuming you have the bytecode)
+async function deployContract() {
+  const account = await getAccount();
+  const contract = new web3.eth.Contract(tokenABI.abi);
+  const contractInstance = await contract.deploy({
+    data: tokenABI.bytecode, 
+    arguments: [1000000],
+  }).send({
+    from: account,
+    gas: 1500000,
+    gasPrice: '30000000000',
+  });
+
+  console.log("Contract deployed to:", contractInstance.options.address);
+  return contractInstance;
+}
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <div className={styles.container}>
+      <h1>My Dapp</h1>
+      <button onClick={getBalance}>Get Balance</button>
+      <button onClick={transferTokens}>Transfer Tokens</button>
+      <button onClick={deployContract}>Deploy Contract</button>
+    </div>
   );
 }
