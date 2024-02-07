@@ -20,3 +20,13 @@ type Approval @entity {
   spender: Bytes!
   value: BigInt!
 }
+
+type Token @entity {
+  id: ID!
+  tokenAddress: Bytes!
+  name: String!
+  symbol: String!
+  totalSupply: BigInt!
+  owner: Bytes!
+  tokenCreation: TokenCreation!
+}

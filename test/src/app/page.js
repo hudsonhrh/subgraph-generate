@@ -79,7 +79,7 @@ async function deployTokenFactory() {
 }
 
 // Assume this is the address of your deployed TokenFactory
-const factoryContractAddress = "0xe5bcD60fA7a8cd84411a2f53A0c1555381F7dc9C";
+const factoryContractAddress = "0xcCAA37CcF4f794cfcAfB6380B53E3A342A6e5B8a";
 
 // Function to create a new token using the TokenFactory
 async function createNewToken(name, symbol, initialSupply) {
