@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: TokenFactory
@@ -16,11 +16,11 @@ dataSources:
         - TokenCreation
       abis:
         - name: TokenFactory
-          file: ../src/abi/TokenFactory.json
+          file: src/abi/TokenFactory.json
       eventHandlers:
         - event: TokenCreated(indexed address,string,string,uint256,address)
           handler: handleTokenCreated
-      file: ./token-factory-mapping.ts
+      file: TokenFactory/TokenFactory.wasm
 templates:
   - kind: ethereum/contract
     name: TokenTemplate
@@ -36,10 +36,10 @@ templates:
         - Approval
       abis:
         - name: Token
-          file: ../src/abi/Token.json
+          file: src/abi/Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
-      file: ./token-mapping.ts
+      file: templates/TokenTemplate/TokenTemplate.wasm

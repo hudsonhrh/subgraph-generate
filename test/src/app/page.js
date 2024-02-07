@@ -7,6 +7,7 @@ import Web3 from 'web3';
 
 // Import contract ABI
 import tokenABI from "../abi/Token.json";
+import tokenFactoryABI from "../abi/TokenFactory.json";
 
 // Initialize Web3 and get a provider from MetaMask
 const web3 = new Web3(window.ethereum);
@@ -63,6 +64,39 @@ async function deployContract() {
   return contractInstance;
 }
 
+// Deploy TokenFactory contract
+async function deployTokenFactory() {
+  const account = await getAccount();
+  const contract = new web3.eth.Contract(tokenFactoryABI.abi);
+  const contractInstance = await contract.deploy({
+    data: tokenFactoryABI.bytecode,
+  }).send({
+    from: account,
+  });
+
+  console.log("TokenFactory deployed to:", contractInstance.options.address);
+  return contractInstance;
+}
+
+// Assume this is the address of your deployed TokenFactory
+const factoryContractAddress = "0xe5bcD60fA7a8cd84411a2f53A0c1555381F7dc9C";
+
+// Function to create a new token using the TokenFactory
+async function createNewToken(name, symbol, initialSupply) {
+  const account = await getAccount();
+  const factoryContract = new web3.eth.Contract(tokenFactoryABI.abi, factoryContractAddress, {
+    from: account,
+  });
+
+  const tx = await factoryContract.methods.createToken(name, symbol, initialSupply).send({
+    from: account,
+  });
+
+  console.log("New token address:", tx.events.TokenCreated.returnValues[0]);
+}
+
+
+
 export default function Home() {
   return (
     <div className={styles.container}>
@@ -70,6 +104,8 @@ export default function Home() {
       <button onClick={getBalance}>Get Balance</button>
       <button onClick={transferTokens}>Transfer Tokens</button>
       <button onClick={deployContract}>Deploy Contract</button>
+      <button onClick={deployTokenFactory}>Deploy TokenFactory</button>
+      <button onClick={() => createNewToken("MyToken", " MT", 1000000)}>Create New Token</button>
     </div>
   );
 }
