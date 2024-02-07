@@ -1,5 +1,5 @@
 import { BigInt, log } from "@graphprotocol/graph-ts"
-import { Transfer as TransferEvent, Approval as ApprovalEvent } from "./generated/templates/TokenTemplate/Token"
+import { Transfer as TransferEvent, Approval as ApprovalEvent } from "./generated/templates/Token/Token"
 import { Transfer, Approval } from "./generated/schema"
 import { dataSource } from '@graphprotocol/graph-ts'
 

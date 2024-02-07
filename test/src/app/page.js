@@ -21,7 +21,7 @@ async function getAccount() {
 
 // Get contract instance
 function getContract(account) {
-  const contractAddress = "0x00058B61bcaa7731082E6C90E7317303eA1b74c9";
+  const contractAddress = "0x8d50cf3f84a4920abc9e4acb1f87c7bf3c22358b";
   const contract = new web3.eth.Contract(tokenABI.abi, contractAddress, {
     from: account // specifying the default account to use
   });
@@ -41,7 +41,7 @@ async function getBalance() {
 async function transferTokens() {
   const account = await getAccount();
   const contract = getContract(account);
-  const tx = await contract.methods.transfer("0x00058B61bcaa7731082E6C90E7317303eA1b74c9", 100).send({
+  const tx = await contract.methods.transfer("0x8d50cf3f84a4920abc9e4acb1f87c7bf3c22358b", 100).send({
     from: account
   });
   console.log("Transaction: ", tx);
